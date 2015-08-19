@@ -1,4 +1,5 @@
 from django.template.loader import render_to_string
+import re
 
 
 class Sitemap(object):
@@ -13,6 +14,7 @@ class Sitemap(object):
     def get_urls(self):
         for page in self.get_pages():
             for url in page.specific.get_sitemap_urls():
+                url['location'] = re.sub(r'(_page)', '', url['location'])
                 yield url
 
     def render(self):
